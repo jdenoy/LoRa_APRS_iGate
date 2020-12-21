@@ -228,7 +228,7 @@ void loop()
 		}
 		if(Config.digi.active)
 		{
-			if(msg->getSource().indexOf(Config.callsign) != -1)
+			if(msg->getPath().indexOf(Config.callsign) != -1)
 			{
 				logPrintD("Message already received as repeater: '");
 				logPrintD(msg->toString());
