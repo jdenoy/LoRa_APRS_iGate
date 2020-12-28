@@ -19,6 +19,8 @@
 #include "display.h"
 #include "configuration.h"
 
+#include <HTTPClient.h>
+
 #if defined(ARDUINO_T_Beam) && !defined(ARDUINO_T_Beam_V0_7)
 #include "power_management.h"
 PowerManagement powerManagement;
@@ -211,6 +213,14 @@ void loop()
 	if(lora_aprs.hasMessage())
 	{
 		std::shared_ptr<APRSMessage> msg = lora_aprs.getMessage();
+
+		const char* serverName = "http://www.jdlabs.fr/aprs-data/";
+		http.begin(serverName);
+		http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		String httpRequestData = "msg="+msg->toString()+"&rssi="+String(lora_aprs.packetRssi())+"&snr="+String(lora_aprs.packetSnr());
+		// Send HTTP POST request
+		int httpResponseCode = http.POST(httpRequestData);
+		http.end();
 
 		setup_display(); secondsSinceDisplay = 0; display_is_on = true;
 		show_display(Config.callsign, timeClient.getFormattedTime() + "         LoRa", "RSSI: " + String(lora_aprs.packetRssi()) + ", SNR: " + String(lora_aprs.packetSnr()), msg->toString());
