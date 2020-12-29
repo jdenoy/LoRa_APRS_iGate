@@ -217,7 +217,7 @@ void loop()
 // Added code to add rssi & snr to message content sent to aprs server
                 String body = msg->getAPRSBody()->getData();
 		body.trim();
-		msg->getAPRSBody()->setData(body +" - rssi:"+lora_aprs.packetRssi()+" - snr: "+lora_aprs.packetSnr());                
+		msg->getAPRSBody()->setData(body +" - rssi: "+lora_aprs.packetRssi()+" - snr: "+lora_aprs.packetSnr());                
 //------------------
 
   
