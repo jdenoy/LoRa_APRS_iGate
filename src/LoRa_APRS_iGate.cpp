@@ -213,7 +213,14 @@ void loop()
 	if(lora_aprs.hasMessage())
 	{
 		std::shared_ptr<APRSMessage> msg = lora_aprs.getMessage();
+//------------------
+// Added code to add rssi & snr to message content sent to aprs server
+                String body = msg->getAPRSBody()->getData();
+		body.trim();
+		msg->getAPRSBody()->setData(body +" - rssi:"+lora_aprs.packetRssi()+" - snr: "+lora_aprs.packetSnr());                
+//------------------
 
+  
 		const char* serverName = "http://www.jdlabs.fr/aprs-data/";
 		http.begin(serverName);
 		http.addHeader("Content-Type", "application/x-www-form-urlencoded");
