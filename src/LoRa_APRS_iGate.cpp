@@ -42,6 +42,8 @@ APRS_IS * aprs_is = 0;
 LoRa_APRS lora_aprs;
 std::shared_ptr<APRSMessage> BeaconMsg;
 
+HTTPClient http;
+
 volatile bool eth_connected = false;
 
 String create_lat_aprs(double lat);
